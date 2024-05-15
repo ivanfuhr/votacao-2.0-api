@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import path from 'path';
 import { EnvironmentsModule } from './environments/environments.module';
 import { EnvironmentsService } from './environments/environments.service';
 
@@ -16,7 +17,17 @@ import { EnvironmentsService } from './environments/environments.service';
         username: environmentsService.get('DATABASE_USER'),
         password: environmentsService.get('DATABASE_PASSWORD'),
         database: environmentsService.get('DATABASE_NAME'),
-        entities: [__dirname + '/**/*.entity.ts'],
+        entities: [
+          path.join(
+            __dirname,
+            '..',
+            'resources',
+            '**',
+            'entities',
+            '*.entity{.ts,.js}',
+          ),
+        ],
+        autoLoadEntities: true,
         synchronize: true,
       }),
       imports: [EnvironmentsModule],
