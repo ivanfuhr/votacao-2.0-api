@@ -12,6 +12,7 @@ import {
   Query,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiExtraModels,
   ApiNoContentResponse,
@@ -42,6 +43,9 @@ export class ResolutionsController {
   @ApiCreatedResponse({
     description: 'The record has been successfully created.',
     type: ResolutionDto,
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid data provided',
   })
   create(@Body() createResolutionDto: CreateResolutionDto) {
     return this.resolutionsService.create(createResolutionDto);
@@ -124,6 +128,9 @@ export class ResolutionsController {
   })
   @ApiNotFoundResponse({
     description: 'Resolution not found',
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid data provided',
   })
   @ApiParam({
     name: 'id',

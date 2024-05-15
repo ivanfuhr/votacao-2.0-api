@@ -19,6 +19,7 @@ export class ResolutionsService {
   async create(createResolutionDto: CreateResolutionDto) {
     const resolutionData =
       this.resolutionRepository.create(createResolutionDto);
+
     const resolution = await this.resolutionRepository.save(resolutionData);
 
     return ResolutionMapper.resolutionEntityToDto(resolution);
