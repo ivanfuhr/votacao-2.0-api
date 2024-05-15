@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { CATEGORIES_SERVICE_TOKEN } from './categories.constants';
 import { CategoriesController } from './categories.controller';
 import { CategoriesService } from './categories.service';
 
@@ -17,7 +18,7 @@ describe('CategoriesController', () => {
       controllers: [CategoriesController],
       providers: [
         {
-          provide: CategoriesService,
+          provide: CATEGORIES_SERVICE_TOKEN,
           useValue: {
             create: jest.fn(),
             findAll: jest.fn(),
@@ -30,7 +31,7 @@ describe('CategoriesController', () => {
     }).compile();
 
     controller = module.get<CategoriesController>(CategoriesController);
-    service = module.get<CategoriesService>(CategoriesService);
+    service = module.get<CategoriesService>(CATEGORIES_SERVICE_TOKEN);
   });
 
   describe('create', () => {

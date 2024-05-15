@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CategoriesService } from './categories.service';
+import { CategoriesServiceImpl } from './categories.service.impl';
 import { CreateCategoryDto } from './dto/request/create-category.dto';
 import { UpdateCategoryDto } from './dto/request/update-category.dto';
 import { CategoryDto } from './dto/response/category.dto';
@@ -15,13 +16,13 @@ const oneCategory: Category = {
 
 const invalidUuid = 'invalid-uuid';
 
-describe('CategoriesService', () => {
+describe('CategoriesServiceImpl', () => {
   let service: CategoriesService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        CategoriesService,
+        CategoriesServiceImpl,
         {
           provide: getRepositoryToken(Category),
           useValue: {
@@ -42,7 +43,7 @@ describe('CategoriesService', () => {
       ],
     }).compile();
 
-    service = module.get<CategoriesService>(CategoriesService);
+    service = module.get<CategoriesService>(CategoriesServiceImpl);
   });
 
   describe('create', () => {
@@ -82,7 +83,7 @@ describe('CategoriesService', () => {
   });
 
   describe('update', () => {
-    it('should return a category given a valid id and data', async () => {
+    it('should return a updated category given a valid id and data', async () => {
       const categoryData = new UpdateCategoryDto();
       categoryData.title = 'Test Category';
 
@@ -102,11 +103,10 @@ describe('CategoriesService', () => {
   });
 
   describe('remove', () => {
-    it('should return a category given a valid id', async () => {
+    it('should return void given a valid id', async () => {
       const categoryAct = await service.remove(oneCategory.id);
 
-      expect(categoryAct).toBeDefined();
-      expect(categoryAct).toBe(true);
+      expect(categoryAct).toBeUndefined();
     });
 
     it('should throw an error if the id is not a valid uuid', async () => {

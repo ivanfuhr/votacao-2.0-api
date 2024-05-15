@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { CATEGORIES_SERVICE_TOKEN } from '../categories/categories.constants';
 import { CreateResolutionDto } from './dto/request/create-resolution.dto';
 import { ResolutionDto } from './dto/response/resolution.dto';
 import { Resolution } from './entities/resolution.entity';
 import { ResolutionsService } from './resolutions.service';
+import { ResolutionsServiceImpl } from './resolutions.service.impl';
 
-const oneResolution: Resolution = {
+const oneResolution = {
   id: '42f1c3b2-6d0a-41bd-a9d0-61c4c7be0ddf',
   title: 'Test Resolution',
   description: 'Test Description',
@@ -15,13 +17,13 @@ const oneResolution: Resolution = {
 
 const invalidUuid = 'invalid-uuid';
 
-describe('ResolutionsService', () => {
+describe('ResolutionsServiceImpl', () => {
   let service: ResolutionsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ResolutionsService,
+        ResolutionsServiceImpl,
         {
           provide: getRepositoryToken(Resolution),
           useValue: {
@@ -45,10 +47,16 @@ describe('ResolutionsService', () => {
             remove: jest.fn((data) => true),
           },
         },
+        {
+          provide: CATEGORIES_SERVICE_TOKEN,
+          useValue: {
+            findOne: jest.fn(() => ({})),
+          },
+        },
       ],
     }).compile();
 
-    service = module.get<ResolutionsService>(ResolutionsService);
+    service = module.get<ResolutionsService>(ResolutionsServiceImpl);
   });
 
   describe('create', () => {
@@ -130,10 +138,10 @@ describe('ResolutionsService', () => {
   });
 
   describe('remove', () => {
-    it('should return true given a valid id', async () => {
+    it('should return void given a valid id', async () => {
       const result = await service.remove(oneResolution.id);
 
-      expect(result).toBeTruthy();
+      expect(result).toBeUndefined();
     });
 
     it('should throw an error given an invalid id', async () => {

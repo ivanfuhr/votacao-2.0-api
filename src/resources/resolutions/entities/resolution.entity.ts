@@ -1,7 +1,10 @@
+import { Category } from 'src/resources/categories/entities/category.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -10,6 +13,10 @@ import {
 export class Resolution {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
 
   @Column({ length: 255 })
   title: string;

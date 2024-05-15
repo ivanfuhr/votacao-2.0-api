@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  Inject,
   Param,
   ParseIntPipe,
   Post,
@@ -28,12 +29,16 @@ import { PaginationDto } from 'src/common/dtos/response/pagination.dto';
 import { CreateResolutionDto } from './dto/request/create-resolution.dto';
 import { UpdateResolutionDto } from './dto/request/update-resolution.dto';
 import { ResolutionDto } from './dto/response/resolution.dto';
+import { RESOLUTIONS_SERVICE_TOKEN } from './resolutions.constants';
 import { ResolutionsService } from './resolutions.service';
 
 @ApiTags('Resolutions')
 @Controller('resolutions')
 export class ResolutionsController {
-  constructor(private readonly resolutionsService: ResolutionsService) {}
+  constructor(
+    @Inject(RESOLUTIONS_SERVICE_TOKEN)
+    private readonly resolutionsService: ResolutionsService,
+  ) {}
 
   @Post()
   @ApiOperation({

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpCode,
+  Inject,
   Param,
   Patch,
   Post,
@@ -18,6 +19,7 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { CATEGORIES_SERVICE_TOKEN } from './categories.constants';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/request/create-category.dto';
 import { UpdateCategoryDto } from './dto/request/update-category.dto';
@@ -26,7 +28,10 @@ import { CategoryDto } from './dto/response/category.dto';
 @ApiTags('Categories')
 @Controller('categories')
 export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+  constructor(
+    @Inject(CATEGORIES_SERVICE_TOKEN)
+    private readonly categoriesService: CategoriesService,
+  ) {}
 
   @Post()
   @ApiOperation({

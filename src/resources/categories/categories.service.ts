@@ -1,68 +1,18 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { CreateCategoryDto } from './dto/request/create-category.dto';
 import { UpdateCategoryDto } from './dto/request/update-category.dto';
-import { Category } from './entities/category.entity';
-import { CategoryMapper } from './mappers/category.mapper';
+import { CategoryDto } from './dto/response/category.dto';
 
-@Injectable()
-export class CategoriesService {
-  constructor(
-    @InjectRepository(Category)
-    private resolutionRepository: Repository<Category>,
-  ) {}
+export interface CategoriesService {
+  create(createCategoryDto: CreateCategoryDto): Promise<CategoryDto>;
 
-  async create(createCategoryDto: CreateCategoryDto) {
-    const categoryData = this.resolutionRepository.create(createCategoryDto);
+  findAll(): Promise<CategoryDto[]>;
 
-    const category = await this.resolutionRepository.save(categoryData);
+  findOne(id: string): Promise<CategoryDto>;
 
-    return CategoryMapper.categoryEntityToDto(category);
-  }
+  update(
+    id: string,
+    updateCategoryDto: UpdateCategoryDto,
+  ): Promise<CategoryDto>;
 
-  async findAll() {
-    const resolutions = await this.resolutionRepository.find();
-
-    return resolutions.map((resolution) =>
-      CategoryMapper.categoryEntityToDto(resolution),
-    );
-  }
-
-  async findOne(id: string) {
-    const resolution = await this.findCategoryById(id);
-
-    return CategoryMapper.categoryEntityToDto(resolution);
-  }
-
-  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    const category = await this.findCategoryById(id);
-
-    const categoryData = this.resolutionRepository.merge(
-      category,
-      updateCategoryDto,
-    );
-
-    const updatedCategory = await this.resolutionRepository.save(categoryData);
-
-    return CategoryMapper.categoryEntityToDto(updatedCategory);
-  }
-
-  async remove(id: string) {
-    const category = await this.findCategoryById(id);
-
-    return await this.resolutionRepository.remove(category);
-  }
-
-  private async findCategoryById(id: string) {
-    const category = await this.resolutionRepository.findOne({
-      where: { id },
-    });
-
-    if (!category) {
-      throw new NotFoundException('Category not found');
-    }
-
-    return category;
-  }
+  remove(id: string): Promise<void>;
 }

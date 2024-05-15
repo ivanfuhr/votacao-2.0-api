@@ -1,12 +1,19 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CategoriesModule } from '../categories/categories.module';
 import { Resolution } from './entities/resolution.entity';
+import { RESOLUTIONS_SERVICE_TOKEN } from './resolutions.constants';
 import { ResolutionsController } from './resolutions.controller';
-import { ResolutionsService } from './resolutions.service';
+import { ResolutionsServiceImpl } from './resolutions.service.impl';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Resolution])],
+  imports: [TypeOrmModule.forFeature([Resolution]), CategoriesModule],
   controllers: [ResolutionsController],
-  providers: [ResolutionsService],
+  providers: [
+    {
+      provide: RESOLUTIONS_SERVICE_TOKEN,
+      useClass: ResolutionsServiceImpl,
+    },
+  ],
 })
 export class ResolutionsModule {}

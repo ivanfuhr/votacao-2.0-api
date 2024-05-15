@@ -1,10 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { RESOLUTIONS_SERVICE_TOKEN } from './resolutions.constants';
 import { ResolutionsController } from './resolutions.controller';
 import { ResolutionsService } from './resolutions.service';
 
 const oneResolution = {
   title: 'Test Resolution',
   description: 'Test Description',
+  categoryId: '3108a0e7-bbcf-40c3-a420-dd03c3782c10',
 };
 
 const resolutionId = '3108a0e7-bbcf-40c3-a420-dd03c3782c10';
@@ -18,7 +20,7 @@ describe('ResolutionsController', () => {
       controllers: [ResolutionsController],
       providers: [
         {
-          provide: ResolutionsService,
+          provide: RESOLUTIONS_SERVICE_TOKEN,
           useValue: {
             create: jest.fn(),
             findAll: jest.fn(),
@@ -31,7 +33,7 @@ describe('ResolutionsController', () => {
     }).compile();
 
     controller = module.get<ResolutionsController>(ResolutionsController);
-    service = module.get<ResolutionsService>(ResolutionsService);
+    service = module.get<ResolutionsService>(RESOLUTIONS_SERVICE_TOKEN);
   });
 
   describe('create', () => {
