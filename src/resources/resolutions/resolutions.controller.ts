@@ -115,7 +115,10 @@ export class ResolutionsController {
   })
   @ApiParam({
     name: 'id',
-    type: String,
+    schema: {
+      type: 'string',
+      format: 'uuid',
+    },
     description: 'Resolution identifier',
   })
   findOne(@Param('id') id: string) {
@@ -139,7 +142,10 @@ export class ResolutionsController {
   })
   @ApiParam({
     name: 'id',
-    type: String,
+    schema: {
+      type: 'string',
+      format: 'uuid',
+    },
     description: 'Resolution identifier',
   })
   update(
@@ -159,6 +165,14 @@ export class ResolutionsController {
   })
   @ApiNotFoundResponse({
     description: 'Resolution not found',
+  })
+  @ApiParam({
+    name: 'id',
+    schema: {
+      type: 'string',
+      format: 'uuid',
+    },
+    description: 'Resolution identifier',
   })
   @HttpCode(204)
   remove(@Param('id') id: string) {

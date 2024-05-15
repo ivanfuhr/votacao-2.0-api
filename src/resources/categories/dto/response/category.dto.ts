@@ -19,14 +19,14 @@ export class CategoryDto {
   @Expose()
   @ApiProperty({
     example: '2021-09-17T18:15:19.000Z',
-    description: 'The date when the resolution was created',
+    description: 'The date when the category was created',
   })
   createdAt: Date;
 
   @Expose()
   @ApiProperty({
     example: '2021-09-17T18:15:19.000Z',
-    description: 'The date when the resolution was last updated',
+    description: 'The date when the category was last updated',
   })
   updatedAt: Date;
 }

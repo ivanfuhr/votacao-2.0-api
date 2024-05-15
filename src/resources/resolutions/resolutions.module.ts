@@ -15,5 +15,6 @@ import { ResolutionsServiceImpl } from './resolutions.service.impl';
       useClass: ResolutionsServiceImpl,
     },
   ],
+  exports: [RESOLUTIONS_SERVICE_TOKEN],
 })
 export class ResolutionsModule {}

@@ -9,12 +9,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity('resolutions')
 export class Resolution {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Category)
+  @ManyToOne(() => Category, { cascade: true })
   @JoinColumn({ name: 'category_id' })
   category: Category;
 

@@ -7,7 +7,7 @@ import { Resolution } from './entities/resolution.entity';
 import { ResolutionsService } from './resolutions.service';
 import { ResolutionsServiceImpl } from './resolutions.service.impl';
 
-const oneResolution = {
+export const oneResolution = {
   id: '42f1c3b2-6d0a-41bd-a9d0-61c4c7be0ddf',
   title: 'Test Resolution',
   description: 'Test Description',

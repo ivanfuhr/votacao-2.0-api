@@ -77,7 +77,10 @@ export class CategoriesController {
   @ApiParam({
     name: 'id',
     description: 'Category ID',
-    type: 'string',
+    schema: {
+      type: 'string',
+      format: 'uuid',
+    },
     required: true,
   })
   findOne(@Param('id') id: string) {
@@ -99,7 +102,10 @@ export class CategoriesController {
   @ApiParam({
     name: 'id',
     description: 'Category ID',
-    type: 'string',
+    schema: {
+      type: 'string',
+      format: 'uuid',
+    },
     required: true,
   })
   @ApiBadRequestResponse({
@@ -126,7 +132,10 @@ export class CategoriesController {
   @ApiParam({
     name: 'id',
     description: 'Category ID',
-    type: 'string',
+    schema: {
+      type: 'string',
+      format: 'uuid',
+    },
     required: true,
   })
   @HttpCode(204)

@@ -71,7 +71,15 @@
       "^.+\\.(t|j)s?$": ["@swc/jest"]
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.controller.ts",
+      "**/*.service.impl.ts",
+      "**/*.middleware.ts",
+      "**/*.guard.ts",
+      "**/*.interceptor.ts",
+      "**/*.pipe.ts",
+      "**/*.decorator.ts",
+      "**/*.resolver.ts",
+      "**/*.config.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
