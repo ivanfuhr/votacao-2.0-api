@@ -9,7 +9,7 @@ import { Session } from './entities/session.entity';
 import { SessionsService } from './sessions.service';
 import { SessionsServiceImpl } from './sessions.service.impl';
 
-const oneSession = {
+export const oneSession = {
   id: 'c9000b17-9ca9-4065-996f-c35ddf28c39c',
   endAt: new Date(Date.now() + 1000000),
   startAt: new Date(Date.now() + 500000),

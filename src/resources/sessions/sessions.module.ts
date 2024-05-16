@@ -15,5 +15,6 @@ import { SessionsServiceImpl } from './sessions.service.impl';
       useClass: SessionsServiceImpl,
     },
   ],
+  exports: [SESSIONS_SERVICE_TOKEN],
 })
 export class SessionsModule {}
