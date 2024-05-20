@@ -11,9 +11,11 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiExtraModels,
   ApiNoContentResponse,
@@ -26,6 +28,10 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 import { PaginationDto } from 'src/common/dtos/response/pagination.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../auth/roles.decorator';
+import { RolesGuard } from '../auth/roles.guard';
+import { Role } from '../users/enums/role.enum';
 import { CreateResolutionDto } from './dto/request/create-resolution.dto';
 import { UpdateResolutionDto } from './dto/request/update-resolution.dto';
 import { ResolutionDto } from './dto/response/resolution.dto';
@@ -52,6 +58,9 @@ export class ResolutionsController {
   @ApiBadRequestResponse({
     description: 'Invalid data provided',
   })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth()
   create(@Body() createResolutionDto: CreateResolutionDto) {
     return this.resolutionsService.create(createResolutionDto);
   }
@@ -126,6 +135,9 @@ export class ResolutionsController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Update a resolution',
     description: 'This will update a resolution by its ID',
@@ -156,6 +168,9 @@ export class ResolutionsController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Remove a resolution',
     description: 'This will remove a resolution by its ID',

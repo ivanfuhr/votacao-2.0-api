@@ -16,6 +16,7 @@ async function bootstrap() {
     .setTitle('Easy Resolutions API')
     .setDescription('The Easy Resolutions API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);

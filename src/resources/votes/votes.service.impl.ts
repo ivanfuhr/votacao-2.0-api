@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SESSIONS_SERVICE_TOKEN } from '../sessions/sessions.constants';
 import { SessionsService } from '../sessions/sessions.service';
+import { UserDto } from '../users/dto/response/user.dto';
 import { CreateVoteDto } from './dto/request/create-vote.dto';
 import { VoteDto } from './dto/response/vote.dto';
 import { Vote } from './entities/vote.entity';
@@ -19,7 +20,7 @@ export class VotesServiceImpl implements VotesService {
     private readonly sessionsService: SessionsService,
   ) {}
 
-  async create(createVoteDto: CreateVoteDto): Promise<VoteDto> {
+  async create(createVoteDto: CreateVoteDto, user: UserDto): Promise<VoteDto> {
     const session = await this.sessionsService.findOne(createVoteDto.sessionId);
 
     const now = new Date();
@@ -33,6 +34,8 @@ export class VotesServiceImpl implements VotesService {
     }
 
     const voteData = this.voteRepository.create(createVoteDto);
+    voteData.userId = user.id;
+
     const vote = await this.voteRepository.save(voteData);
 
     return VoteMapper.voteEntityToDto(vote);

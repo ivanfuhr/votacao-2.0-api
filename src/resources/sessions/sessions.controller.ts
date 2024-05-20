@@ -7,9 +7,11 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
@@ -18,6 +20,10 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../auth/roles.decorator';
+import { RolesGuard } from '../auth/roles.guard';
+import { Role } from '../users/enums/role.enum';
 import { CreateSessionDto } from './dto/request/create-session.dto';
 import { UpdateSessionDto } from './dto/request/update-session.dto';
 import { SessionDto } from './dto/response/session.dto';
@@ -33,6 +39,9 @@ export class SessionsController {
   ) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Create a session',
     description: 'This will create a new session',
@@ -86,6 +95,9 @@ export class SessionsController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Update a session',
     description: 'This will update a session by id',
@@ -113,6 +125,9 @@ export class SessionsController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Delete a session',
     description: 'This will delete a session by id',

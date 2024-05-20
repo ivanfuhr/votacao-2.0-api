@@ -27,6 +27,13 @@ export class VoteDto {
 
   @Expose()
   @ApiProperty({
+    description: 'The user ID of the vote',
+    example: 'a98583f1-6bb2-422f-87ff-d291a62e6108',
+  })
+  userId: string;
+
+  @Expose()
+  @ApiProperty({
     example: '2021-09-17T18:15:19.000Z',
     description: 'The date when the vote was created',
   })

@@ -34,6 +34,16 @@ export class EnvironmentsSchema {
   @IsString()
   @MinLength(1)
   DATABASE_NAME: string;
+
+  @IsDefined()
+  @IsString()
+  @MinLength(26)
+  JWT_SECRET: string;
+
+  @IsDefined()
+  @IsNumber()
+  @Min(1)
+  JWT_EXPIRES_IN: number;
 }
 
 export function configValidator(configuration: Record<string, any>) {

@@ -8,9 +8,11 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
@@ -19,6 +21,10 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Roles } from '../auth/roles.decorator';
+import { RolesGuard } from '../auth/roles.guard';
+import { Role } from '../users/enums/role.enum';
 import { CATEGORIES_SERVICE_TOKEN } from './categories.constants';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/request/create-category.dto';
@@ -45,6 +51,9 @@ export class CategoriesController {
   @ApiBadRequestResponse({
     description: 'Invalid data provided',
   })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth()
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoriesService.create(createCategoryDto);
   }
@@ -83,6 +92,9 @@ export class CategoriesController {
     },
     required: true,
   })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth()
   findOne(@Param('id') id: string) {
     return this.categoriesService.findOne(id);
   }
@@ -111,6 +123,9 @@ export class CategoriesController {
   @ApiBadRequestResponse({
     description: 'Invalid data provided',
   })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth()
   update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
@@ -138,6 +153,9 @@ export class CategoriesController {
     },
     required: true,
   })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth()
   @HttpCode(204)
   remove(@Param('id') id: string) {
     this.categoriesService.remove(id);

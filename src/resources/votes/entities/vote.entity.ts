@@ -21,6 +21,9 @@ export class Vote {
   @Column({ name: 'session_id' })
   sessionId: string;
 
+  @Column({ name: 'user_id' })
+  userId: string;
+
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   createdAt: Date;
 

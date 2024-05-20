@@ -14,5 +14,6 @@ import { UsersServiceImpl } from './users.service.impl';
       useClass: UsersServiceImpl,
     },
   ],
+  exports: [USERS_SERVICE_TOKEN],
 })
 export class UsersModule {}

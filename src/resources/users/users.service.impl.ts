@@ -27,8 +27,6 @@ export class UsersServiceImpl implements UsersService {
       },
     });
 
-    console.log(checkDocument);
-
     if (checkDocument) {
       throw new BadRequestException('Document already in use');
     }
@@ -52,6 +50,14 @@ export class UsersServiceImpl implements UsersService {
     const user = await this.findUserByIdOrFail(id);
 
     return UserMapper.userEntityToDto(user);
+  }
+
+  async findByDocument(document: string): Promise<User | null> {
+    return await this.userRepository.findOne({
+      where: {
+        document,
+      },
+    });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<UserDto> {

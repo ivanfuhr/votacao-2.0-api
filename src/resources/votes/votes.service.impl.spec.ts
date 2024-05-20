@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { SESSIONS_SERVICE_TOKEN } from '../sessions/sessions.constants';
 import { oneSession } from '../sessions/sessions.service.impl.spec';
+import { UserDto } from '../users/dto/response/user.dto';
 import { VoteDto } from './dto/response/vote.dto';
 import { Vote } from './entities/vote.entity';
 import { VoteType } from './enums/vote-type.enum';
@@ -12,6 +13,10 @@ const oneVote = {
   vote: VoteType.YES,
   sessionId: oneSession.id,
 };
+
+const oneUser = {
+  id: '48f36572-589f-433b-a940-63de6701f56e',
+} as UserDto;
 
 describe('VotesServiceImpl', () => {
   let service: VotesService;
@@ -49,7 +54,7 @@ describe('VotesServiceImpl', () => {
     it('should return a new vote given valid data', async () => {
       oneSession.startAt = new Date();
 
-      const result = await service.create(oneVote);
+      const result = await service.create(oneVote, oneUser);
 
       expect(result).toBeDefined();
       expect(result).toBeInstanceOf(VoteDto);
@@ -58,7 +63,7 @@ describe('VotesServiceImpl', () => {
     it('should throw an error if session has not started yet', async () => {
       oneSession.startAt = new Date(Date.now() + 1000000);
 
-      await expect(service.create(oneVote)).rejects.toThrow(
+      await expect(service.create(oneVote, oneUser)).rejects.toThrow(
         'Session has not started yet',
       );
     });
@@ -67,7 +72,7 @@ describe('VotesServiceImpl', () => {
       oneSession.startAt = new Date(Date.now() - 1000000);
       oneSession.endAt = new Date(Date.now() - 1000);
 
-      await expect(service.create(oneVote)).rejects.toThrow(
+      await expect(service.create(oneVote, oneUser)).rejects.toThrow(
         'Session has ended',
       );
     });
